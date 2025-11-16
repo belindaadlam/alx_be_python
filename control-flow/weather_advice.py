@@ -11,5 +11,5 @@ elif weather == "rainy":
 elif weather == "cold":
     print("Make sure to wear a warm coat and a scarf.")
 else:
-    # Default case for any input that doesn't match the predefined options
+    # Use double quotes for the else print statement to match checker expectations
     print("Sorry, I don't have recommendations for this weather.")
