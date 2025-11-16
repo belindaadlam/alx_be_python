@@ -5,28 +5,30 @@ task = input("Enter your task: ")
 priority = input("Priority (high/medium/low): ").lower()
 time_bound = input("Is it time-bound? (yes/no): ").lower()
 
-# 2. Determine the reminder text using conditional logic
-if priority == 'high' or priority == 'medium':
-    # This covers the high/medium priority cases
-    reminder_text = f"'{task}' is a {priority} priority task"
-    
-    # Check for time-bound status for high/medium tasks
-    if time_bound == 'yes':
-        # Append the specific urgent message if time-bound
-        reminder_text += " that requires immediate attention today!"
-    else:
-        # If not time-bound, just end the sentence.
-        reminder_text += "."
+# Initialize the base reminder message
+base_reminder = ""
 
-elif priority == 'low':
-    # This covers the low priority case, which has a specific message structure
-    reminder_text = f"Note: '{task}' is a {priority} priority task. Consider completing it when you have free time."
+# 2. Use Match Case to set the base message based on priority
+match priority:
+    case 'high':
+        # High priority tasks will be checked for time-bound status later
+        base_reminder = f"'{task}' is a {priority} priority task"
+    case 'medium':
+        # Medium priority tasks will also be checked for time-bound status later
+        base_reminder = f"'{task}' is a {priority} priority task"
+    case 'low':
+        # Low priority tasks get their full message immediately
+        base_reminder = f"Note: '{task}' is a {priority} priority task. Consider completing it when you have free time."
+    case _:
+        # Handle invalid priority input
+        print("Invalid priority entered. Using 'medium' priority by default.")
+        base_reminder = f"'{task}' is a medium priority task"
 
-else:
-    # Handle invalid priority input
-    print("Invalid priority entered. Defaulting to a simple reminder.")
-    reminder_text = f"'{task}' is a task to be completed."
+# 3. Use an if statement to modify the reminder if the task is time-bound
+# We only add the 'immediate' text if it's time-bound AND it wasn't a low priority task.
+if time_bound == 'yes' and priority in ['high', 'medium']:
+    # The requirement is to add: 'that requires immediate attention today!'
+    base_reminder += " that requires immediate attention today!"
 
-# 3. Print the final customized reminder with the required starting text "Reminder: "
-# The checker specifically wants this format: print(f"Reminder: {reminder_text}")
-print(f"Reminder: {reminder_text}")
+# 4. Print the final customized reminder
+print(f"\nReminder: {base_reminder}")
